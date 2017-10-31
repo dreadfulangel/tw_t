@@ -58,7 +58,7 @@ func ImportFromFile(fileName string, emailFieldName string, options ...Option) (
 	// open file
 	file, err := os.Open(fileName)
 	if err != nil {
-
+		return nil, err
 	}
 	defer file.Close()
 
