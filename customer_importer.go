@@ -11,10 +11,10 @@ import (
 )
 
 var (
+	ErrEmptyFile          = errors.New("File is empty")
 	ErrFieldNotExists     = errors.New("CSV header doesn't contain field")
 	ErrEmailIsNotValid    = errors.New("Email is not valid")
 	ErrEmailDuplicate     = errors.New("Email already added")
-	ErrEmptyFile          = errors.New("File is empty")
 	ErrNoValidEmailsFound = errors.New("No valid emails found")
 )
 
