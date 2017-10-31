@@ -1,7 +1,6 @@
 package customerimporter
 
 import (
-	"errors"
 	"strings"
 	"testing"
 
@@ -16,7 +15,12 @@ func emptyOption() Option { return func(f *CustomerImporter) {} }
 
 // test with reader
 func TestImport(t *testing.T) {
+	// set header of the csv file
 	header := "first_name,last_name,email,gender,ip_address"
+
+	// Test import with different inputs, options and results
+	t.Log("Test import with different inputs, options and results")
+
 	data := []struct {
 		records []string
 		option  Option
@@ -30,7 +34,7 @@ func TestImport(t *testing.T) {
 			EmailsByDomainQtyList{{"github.io", 1}},
 		},
 
-		// test sorting
+		// working sorting case
 		{[]string{
 			"Mildred,Hernandez,email@b.io,Female,38.194.51.128",
 			"Mildred,Hernandez,email@c.io,Female,38.194.51.128",
@@ -99,7 +103,7 @@ func TestImport(t *testing.T) {
 	}
 
 	for testNumber, d := range data {
-		t.Logf("Test: %v", testNumber)
+		t.Logf("Case: %v", testNumber)
 
 		// put data to buffer
 		b := bytes.NewBufferString(header + "\n")
@@ -115,13 +119,14 @@ func TestImport(t *testing.T) {
 
 		// check for correct error handling
 		if err != nil && !strings.Contains(err.Error(), d.err.Error()) {
-			t.Errorf("should raise error: %v, but got error %v ", testNumber, d.err, err)
+			t.Errorf("should raise error: %v, but got error %v ", d.err, err)
 		}
 
 		//check for correct results
 		if result != nil && !reflect.DeepEqual(*result, d.result) {
-			t.Errorf("Test: %v should result with: %v, but got %v", testNumber, *result, d.result)
+			t.Errorf("should result with: %v, but got %v", *result, d.result)
 		}
+	}
 
 	// test non existing email field
 	t.Log("Test non existing email field")
