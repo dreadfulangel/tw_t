@@ -128,8 +128,10 @@ func TestImport(t *testing.T) {
 	}
 }
 
-// test with file
+// test with files
 func TestImportFromFile(t *testing.T) {
+	// test with existing file
+	t.Log("Test existing file")
 	_, err := ImportFromFile(
 		"./customers.csv",
 		"email",
@@ -138,5 +140,18 @@ func TestImportFromFile(t *testing.T) {
 	)
 	if err != nil {
 		t.Errorf("should pass the test")
+	}
+
+	// test with non existing file
+	t.Log("Test non existing file")
+	_, err = ImportFromFile(
+		"./nonexisting.csv",
+		"email",
+		SkipErrInvalidEmails(),
+		SkipErrDuplicateEmails(),
+	)
+
+	if !strings.Contains(err.Error(), "no such file or directory") {
+		t.Errorf("should raise the error")
 	}
 }
