@@ -124,7 +124,22 @@ func TestImport(t *testing.T) {
 		}
 
 		b.Reset()
+	// test non existing email field
+	t.Log("Test non existing email field")
 
+	// put data to buffer
+	b := bytes.NewBufferString(header + "\n")
+
+	// import from buffer
+	result, err := Import(b, "invalid field")
+
+	// check for correct error handling
+	if err != nil && !strings.Contains(err.Error(), ErrFieldNotExists.Error()) {
+		t.Errorf("should raise error: %v, but got error %v ", err, ErrFieldNotExists)
+	}
+	// check for empty result
+	if result != nil {
+		t.Error("result should be empty")
 	}
 }
 
