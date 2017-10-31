@@ -77,7 +77,7 @@ func Import(r io.Reader, emailFieldName string, options ...Option) (*EmailsByDom
 	reader := csv.NewReader(r)
 
 	// initialize CustomerImporter
-	c := &CustomerImporter{reader: reader, emailFieldName: emailFieldName}
+	c := CustomerImporter{reader: reader, emailFieldName: emailFieldName}
 
 	// initialize maps
 	c.domainCounter = make(map[string]int, 10)
@@ -85,7 +85,7 @@ func Import(r io.Reader, emailFieldName string, options ...Option) (*EmailsByDom
 
 	// set options
 	for _, option := range options {
-		option(c)
+		option(&c)
 	}
 
 	// parse records
