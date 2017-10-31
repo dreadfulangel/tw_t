@@ -93,7 +93,7 @@ func TestImport(t *testing.T) {
 		// error should contain correct line and column
 		{[]string{"Mildred,Hernandez,mhernandezgithub.io,Female,38.194.51.128"},
 			emptyOption(),
-			errors.New("line 2, column 2"),
+			&csv.ParseError{2, 2, ErrEmailIsNotValid},
 			EmailsByDomainQtyList{{"github.io", 1}},
 		},
 	}
