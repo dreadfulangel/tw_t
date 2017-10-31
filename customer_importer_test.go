@@ -123,7 +123,6 @@ func TestImport(t *testing.T) {
 			t.Errorf("Test: %v should result with: %v, but got %v", testNumber, *result, d.result)
 		}
 
-		b.Reset()
 	// test non existing email field
 	t.Log("Test non existing email field")
 
