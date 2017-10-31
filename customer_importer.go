@@ -11,6 +11,7 @@ import (
 )
 
 var (
+	ErrFieldNotExists     = errors.New("CSV header doesn't contain field")
 	ErrEmailIsNotValid    = errors.New("Email is not valid")
 	ErrEmailDuplicate     = errors.New("Email already added")
 	ErrEmptyFile          = errors.New("File is empty")
@@ -171,7 +172,7 @@ func (c *CustomerImporter) determineEmailColumnIndex(headerRecord []string) erro
 		}
 	}
 	// if the field is not found, return an error
-	return c.error(errors.New(fmt.Sprintf("CSV header doesn't contain %s field", c.emailFieldName)))
+	return errors.New(ErrFieldNotExists.Error() + fmt.Sprintf(" %s field", c.emailFieldName))
 }
 
 // updates domain counter
