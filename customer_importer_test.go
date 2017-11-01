@@ -55,28 +55,29 @@ func TestImport(t *testing.T) {
 		{[]string{"Mildred,Hernandez,mhernandezgithub.io,Female,38.194.51.128"},
 			emptyOption(),
 			ErrEmailIsNotValid,
-			EmailsByDomainQtyList{{"github.io", 1}},
+			nil,
 		},
 
 		// case with empty email
 		{[]string{"Mildred,Hernandez,,Female,38.194.51.128"},
 			emptyOption(),
 			ErrEmailIsNotValid,
-			EmailsByDomainQtyList{{"github.io", 1}},
+			nil,
 		},
 
 		// case with invalid email but with SkipErrInvalidEmails option enabled
 		{[]string{"Mildred,Hernandez,mhernandezgithub.io,Female,38.194.51.128"},
 			SkipErrInvalidEmails(),
 			ErrNoValidEmailsFound,
-			EmailsByDomainQtyList{},
+			nil,
 		},
 
 		// case with duplicate emails without options
 		{[]string{"Mildred,Hernandez,mhernandez0@github.io,Female,38.194.51.128",
-			"Mildred,Hernandez,mhernandez0@github.io,Female,38.194.51.128"}, emptyOption(),
+			"Mildred,Hernandez,mhernandez0@github.io,Female,38.194.51.128"},
+			emptyOption(),
 			ErrEmailDuplicate,
-			EmailsByDomainQtyList{{"github.io", 1}},
+			nil,
 		},
 
 		// case with duplicate emails but with SkipErrDuplicateEmails option
@@ -98,7 +99,7 @@ func TestImport(t *testing.T) {
 		{[]string{"Mildred,Hernandez,mhernandezgithub.io,Female,38.194.51.128"},
 			emptyOption(),
 			&csv.ParseError{2, 2, ErrEmailIsNotValid},
-			EmailsByDomainQtyList{{"github.io", 1}},
+			nil,
 		},
 	}
 
